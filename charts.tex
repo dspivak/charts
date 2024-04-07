@@ -412,6 +412,7 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\ifff}[1][\;\;]{#1\xLeftrightarrow{\quad}#1}
 \newcommand{\hi}[4][]{#1 #2 \tn{\textit{#4}} #3}
 \newcommand{\where}[1][,]{\hi[#1]{\qquad}{\quad}{where}}
+\newcommand{\ie}[1][,]{\hi[#1]{\qquad}{\quad}{i.e.}}
 \newcommand{\qimplies}{\hh[\quad]{$\implies$}}
 
 
@@ -571,6 +572,25 @@ In particular, if $\fun{X}\colon c\to\smset$ is a copresheaf with associated bic
 
 \chapter{Left adjoint bicomodules}
 
+\begin{definition}
+Let $\ccatlab\ss\ccatsharp$ denote the locally full sub double category with
+\begin{enumerate}
+	\item the same objects, namely categories,
+	\item the same tight morphisms, namely cofunctors,
+	\item the left adjoint bicomodules (LABs),
+	\item the same cells, which we refer to as \emph{charts}. 
+\qedhere
+\end{enumerate}	
+\end{definition}
+
+\begin{proposition}
+Let $A:\smset$ be a set and $c:\ccatsharp$ a category. Any bicomodule $A\yon\bifrom[p]c$ factors as
+\[
+A\yon\bifrom[\lens{p}{1}]\lens{p}{1}\bifrom[p]c,
+\]
+where one of the bicomodules denoted $p$ is a LAB iff the other one is. 
+\end{proposition}
+
 \begin{proposition}
 For any functor $\fun{f}\colon c\to d$, the bicomodule associated to the pullback $\Delta_\fun{f}\colon d\set\to c\set$ has the form
 \[
@@ -620,6 +640,20 @@ Let $\yon\bifrom[p]c$ be a right $c$-comodule, and let $\lens{p}{1}\bifrom[p]c$ 
 \[
   \biadj{\lens{p}{1}}{p}{\lens{p_*}{1}}{c}
 \]
+\end{proposition}
+
+\begin{proposition}
+Let $p,q:\poly$. A chart between between the associated LABs
+\[
+\begin{tikzcd}
+	\yon\ar[d, equal]\ar[r, bimr-biml, "\lens{p_*}{1}", ""' name=p]&
+	\lens{p}{1}\ar[d, "\fun{f}_1"]\\
+	\yon\ar[r, bimr-biml, "\lens{q_*}{1}"', "" name=q]&
+	\lens{q}{1}
+	\ar[from=p, to=q, Rightarrow, shorten=7pt, "\fun{f}^\flat"]
+\end{tikzcd}
+\]
+is precisely a ``chart, $p\tto q$'' in the sense of Myers.
 \end{proposition}
 
 
