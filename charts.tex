@@ -133,6 +133,23 @@ bimr/.tip={Glyph[glyph math command=triangleright, glyph length=.8ex]},
 \end{tikzcd}
 }
 
+\newcommand{\biadj}[5][30pt]{%[size] Cat L, Left, Right, Cat R.
+\begin{tikzcd}[ampersand replacement=\&, column sep=#1]
+  #2\ar[r, bimr-biml, shift left=7pt, "#3"]
+  \ar[r, phantom, "\scriptstyle\Rightarrow"]\&
+  #5\ar[l, bimr-biml, shift left=7pt, "#4"]
+\end{tikzcd}
+}
+
+\newcommand{\biadjr}[5][30pt]{%[size] Cat R, Right, Left, Cat L.
+\begin{tikzcd}[ampersand replacement=\&, column sep=#1]
+  #2\ar[r, bimr-biml, shift left=7pt, "#3"]\&
+  #5\ar[l, bimr-biml, shift left=7pt, "#4"]
+  \ar[l, phantom, "\scriptstyle\Leftarrow"]
+\end{tikzcd}
+}
+
+
 \newcommand{\Tickar}[1][]{\begin{tikzcd}[baseline=-0.5ex,cramped,sep=small,ampersand 
 replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\Slashar}[1][]{\begin{tikzcd}[baseline=-0.5ex,cramped,sep=small,ampersand 
@@ -339,7 +356,6 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\Span}{\Cat{Span}}
 \newcommand{\rect}{\Set{Rect}}
 \newcommand{\polycart}{\poly^{\tn{cart}}}
-\newcommand{\hh}{\mathcal{h}}
 \newcommand{\ppoly}{\mathbb{P}\Cat{oly}}
 \newcommand{\0}{\textsf{0}}
 \newcommand{\1}{\tn{\textsf{1}}}
@@ -387,10 +403,16 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\bang}{\,\mathbin{!}\,}
 \newcommand{\obang}{\mathbin{\othis{!}}}
 
-\newcommand{\qand}{\quad\text{and}\quad}
-\newcommand{\qqand}{\qquad\text{and}\qquad}
-\newcommand{\qor}{\quad\text{or}\quad}
-\newcommand{\qqor}{\qquad\text{or}\qquad}
+\newcommand{\hh}[2][]{#1 \tn{\textit{#2}} #1}
+\newcommand{\qqand}{\hh[\qquad]{and}}
+\newcommand{\qand}{\hh[\quad]{and}}
+\newcommand{\qor}{\hh[\quad]{or}}
+\newcommand{\qqor}{\hh[\qquad]{or}}
+\renewcommand{\iff}[1][\;\;]{#1\Leftrightarrow#1}
+\newcommand{\ifff}[1][\;\;]{#1\xLeftrightarrow{\quad}#1}
+\newcommand{\hi}[4][]{#1 #2 \tn{\textit{#4}} #3}
+\newcommand{\where}[1][,]{\hi[#1]{\qquad}{\quad}{where}}
+\newcommand{\qimplies}{\hh[\quad]{$\implies$}}
 
 
 \newcommand{\cofun}{{\raisebox{2pt}{\resizebox{2.5pt}{2.5pt}{$\setminus$}}}}
@@ -549,6 +571,22 @@ In particular, if $\fun{X}\colon c\to\smset$ is a copresheaf with associated bic
 
 \chapter{Left adjoint bicomodules}
 
+\begin{proposition}
+For any functor $\fun{f}\colon c\to d$, the bicomodule associated to the pullback $\Delta_\fun{f}\colon d\set\to c\set$ has the form
+\[
+c\bifrom[d_\fun{f}]d
+\where
+d_\fun{f}\coloneqq\sum_{C:c(1)}\yon^{d_{\fun{f}C}}.
+\]
+\end{proposition}
+
+\begin{proposition}
+The right adjoint associated to any LAB $c\bifrom[p]d$ is isomorphic to the left Kan extension of the identity on $d$ along $p$,
+\[
+  \biadj[40pt]{d}{{\vphantom{\lens{d}{\ell}}}_d\lens{d}{\ell}_c}{p}{c}.
+\]
+\end{proposition}
+
 \begin{theorem}
 There is a ternary factorization system on left adjoint bicomodules (LABs), under which an arbitrary LAB $c\bifrom[\ell]d$ can be factored as
 \[
@@ -574,8 +612,15 @@ where the bicomodules carried by $c'$, $d'$, and $d_\ff=\sum_{D':d'(1)}\yon^{d[\
 	\item pushforward along a vertical cofunctor $\iota\omicron\colon d'\coto c'$, and
 	\item pullback along a fully faithful functor $\ff\colon d'\to d$.
 \end{enumerate}
-Note that the first is equivalent to left pushforward along $\delta\omicron\pi\phi$ as a discrete opfibration and the second is equivalent to pullback along the identity-on-objects functor corresponding to $\iota\omicron$.
+Note that the first is equivalent to left pushforward along $\delta\omicron\pi\phi$ as a discrete opfibration and that the second is equivalent to pullback along the identity-on-objects functor corresponding to $\iota\omicron$.
 \end{theorem}
+
+\begin{proposition}
+Let $\yon\bifrom[p]c$ be a right $c$-comodule, and let $\lens{p}{1}\bifrom[p]c$ denote the corresponding right adjoint bicomodule. Its left adjoint is given by
+\[
+  \biadj{\lens{p}{1}}{p}{\lens{p_*}{1}}{c}
+\]
+\end{proposition}
 
 
 
