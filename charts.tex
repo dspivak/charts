@@ -85,8 +85,8 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
   }
   
   \tikzset{
-biml/.tip={Glyph[glyph math command=triangleleft, glyph length=.95ex]},
-bimr/.tip={Glyph[glyph math command=triangleright, glyph length=.95ex]},
+biml/.tip={Glyph[glyph math command=triangleleft, glyph length=.7ex]},
+bimr/.tip={Glyph[glyph math command=triangleright, glyph length=.8ex]},
 }
 
 \tikzset{
@@ -279,7 +279,7 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\fromto}{\leftrightarrows}
 \newcommand{\slashar}{\xslashar{}}
 \newcommand{\ntto}{\Rightarrow}
-\newcommand{\cofunto}{\nrightarrow}
+\newcommand{\coto}{\nrightarrow}
 \newcommand{\dopfto}{\boxright}
 \newcommand{\profto}{\Tickar{}}
 \newcommand{\Profto}[1][]{\Tickar[#1]}
@@ -329,6 +329,8 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\List}{\Fun{list}}
 \newcommand{\set}{\tn{-}\Cat{Set}}
 
+
+\newcommand{\omicron}{o}
 
 
 
@@ -394,6 +396,7 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\cofun}{{\raisebox{2pt}{\resizebox{2.5pt}{2.5pt}{$\setminus$}}}}
 \newcommand{\io}{\fun{io}}
 \newcommand{\ff}{\fun{ff}}
+\newcommand{\dopf}{\fun{dopf}}
 \newcommand{\grph}{\Cat{grph}}
 
 \newcommand{\coalg}{\tn{-}\Cat{Coalg}}
@@ -519,7 +522,7 @@ It was shown by Ahman and Uustalu \cite{AhmanUustalu} that comonoids $(c,\epsilo
 \]
 can be identified with categories, temporarily notated $\cat{C}$, with object set $c(\ord{1})=\ob(\cat{C})$ and outgoing morphisms $\cat{C}[C]=c[C]$ for each object $C:\ob(\cat{C})$. The discrete category on a set $S$ corresponds to the unique comonoid structure on $C\yon$.
 
-Letting $\ccatsharp\coloneqq\ccomod(\poly)$ be the double category of comonoids and bicomodules, the tight morphisms $\varphi\colon c\cofunto d$ are cofunctors, and Garner showed that the loose morphisms $c\bifrom[p] d$, i.e.\ the bicomodules
+Letting $\ccatsharp\coloneqq\ccomod(\poly)$ be the double category of comonoids and bicomodules, the tight morphisms $\varphi\colon c\coto d$ are cofunctors, and Garner showed that the loose morphisms $c\bifrom[p] d$, i.e.\ the bicomodules
 \[
 c\tri p\From{\lambda}p\To{\rho}p\tri d
 \]
@@ -544,13 +547,36 @@ and for each object $C:c(\ord{1})$, we can form a pullback in $\poly$:
 \]
 In particular, if $\fun{X}\colon c\to\smset$ is a copresheaf with associated bicomodule $c\bifrom[X] \0$, then there is a natural isomorphism $X_C\cong\fun{X}(C)$. For any $c\bifrom[p]d$ and object $C:c(\1)$, there is a bicomodule structure $\yon\bifrom[p_C]d$ and an isomorphism $p\cong\sum_{C:c(1)}p_C$ in $\poly$.
 
-\begin{proposition}
-The category of profunctors $c\profto d$ is equivalent to the full subcategory of $\ccatsharp(c,d)$ spanned by those $c\bifrom[p]d$ for which $p_C\cong\1$ for each $C:c(\1)$.
-\end{proposition}
-
-
-
 \chapter{Left adjoint bicomodules}
+
+\begin{theorem}
+There is a ternary factorization system on left adjoint bicomodules (LABs), under which an arbitrary LAB $c\bifrom[\ell]d$ can be factored as
+\[
+\begin{tikzcd}
+	c\ar[rrr, bimr-biml, "\ell", "" name=ell]\ar[rd, bimr-biml, "c'"']&&&
+	d\\&
+	c'\ar[r, bimr-biml, "d'"', "" name=d']&
+	d'\ar[ur, bimr-biml, "d_\ff"']
+	\ar[from=ell, to=d', shorten=2em, equal]
+\end{tikzcd}
+\hspace{1in}
+\begin{tikzcd}
+	c\ar[rrr, bimr-biml, "\ell", "" name=ell]\ar[from=rd, slash, "\delta\omicron\pi\phi"]&&&
+	d\\&
+	c'\ar[from=r, "" name=d', slash, "\iota\omicron"]&
+	d'\ar[ur, "\ff"']
+	\ar[from=ell, to=d', shorten=2em, equal]
+\end{tikzcd}
+\]
+where the bicomodules carried by $c'$, $d'$, and $d_\ff=\sum_{D':d'(1)}\yon^{d[\ff(D')]}$ respectively arise as
+\begin{enumerate}
+	\item pushforward along a cartesian cofunctor $\delta\omicron\pi\phi\colon c'\coto c$,
+	\item pushforward along a vertical cofunctor $\iota\omicron\colon d'\coto c'$, and
+	\item pullback along a fully faithful functor $\ff\colon d'\to d$.
+\end{enumerate}
+Note that the first is equivalent to left pushforward along $\delta\omicron\pi\phi$ as a discrete opfibration and the second is equivalent to pullback along the identity-on-objects functor corresponding to $\iota\omicron$.
+\end{theorem}
+
 
 
 
