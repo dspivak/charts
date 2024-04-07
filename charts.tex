@@ -1,0 +1,560 @@
+\documentclass[11pt, one side, article]{memoir}
+
+
+\settrims{0pt}{0pt} % page and stock same size
+\settypeblocksize{*}{35pc}{*} % {height}{width}{ratio}
+\setlrmargins{*}{*}{1} % {spine}{edge}{ratio}
+\setulmarginsandblock{.98in}{.98in}{*} % height of typeblock computed
+\setheadfoot{\onelineskip}{2\onelineskip} % {headheight}{footskip}
+\setheaderspaces{*}{1.5\onelineskip}{*} % {headdrop}{headsep}{ratio}
+\checkandfixthelayout
+
+
+\usepackage{amsthm}
+\usepackage{mathtools}
+
+\usepackage[inline]{enumitem}
+\usepackage{ifthen}
+\usepackage[utf8]{inputenc} %allows non-ascii in bib file
+\usepackage{xcolor}
+
+\usepackage[backend=biber, backref=true, maxbibnames = 10, style = alphabetic]{biblatex}
+\usepackage[bookmarks=true, colorlinks=true, linkcolor=blue!50!black,
+citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperref}
+\usepackage[capitalize]{cleveref}
+
+\usepackage{tikz}
+
+\usepackage{amssymb}
+\usepackage{newpxtext}
+\usepackage[varg,bigdelims]{newpxmath}
+\usepackage{mathrsfs}
+\usepackage{dutchcal}
+\usepackage{mathalfa}
+\usepackage{fontawesome}
+\usepackage{ebproof}
+\usepackage{stmaryrd}
+\usepackage{ebproof}
+\usepackage{graphicx}
+
+
+
+% xcolor %
+	\newcommand{\myred}[1]{{\color{red!60!black}#1}}
+	\newcommand{\myyellow}[1]{{\color{yellow!60!black}#1}}
+	\newcommand{\mygreen}[1]{{\color{green!40!black}#1}}
+
+% cleveref %
+  \newcommand{\creflastconjunction}{, and\nobreakspace} % serial comma
+  \crefformat{enumi}{\card#2#1#3}
+  \crefalias{chapter}{section}
+
+
+% biblatex %
+  \addbibresource{Library20240318.bib} 
+
+% hyperref %
+  \hypersetup{final}
+
+% enumitem %
+  \setlist{nosep}
+  \setlistdepth{6}
+
+
+
+% tikz %
+
+
+
+  \usetikzlibrary{ 
+  	cd,
+  	math,
+  	decorations.markings,
+		decorations.pathreplacing,
+  	positioning,
+  	arrows.meta,
+  	shapes,
+		shadows,
+		shadings,
+  	calc,
+  	fit,
+  	quotes,
+  	intersections,
+    circuits,
+    circuits.ee.IEC
+  }
+  
+  \tikzset{
+biml/.tip={Glyph[glyph math command=triangleleft, glyph length=.95ex]},
+bimr/.tip={Glyph[glyph math command=triangleright, glyph length=.95ex]},
+}
+
+\tikzset{
+	tick/.style={postaction={
+  	decorate,
+    decoration={markings, mark=at position 0.5 with
+    	{\draw[-] (0,.4ex) -- (0,-.4ex);}}}
+  }
+} 
+\tikzset{
+	slash/.style={postaction={
+  	decorate,
+    decoration={markings, mark=at position 0.5 with
+    	{\draw[-] (.3ex,.3ex) -- (-.3ex,-.3ex);}}}
+  }
+} 
+
+\newcommand{\upp}{\begin{tikzcd}[row sep=6pt]~\\~\ar[u, bend left=50pt, looseness=1.3, start anchor=east, end anchor=east]\end{tikzcd}}
+
+\newcommand{\bito}[1][]{
+	\begin{tikzcd}[ampersand replacement=\&, cramped]\ar[r, biml-bimr, "#1"]\&~\end{tikzcd}  
+}
+\newcommand{\bifrom}[1][]{
+	\begin{tikzcd}[ampersand replacement=\&, cramped]\ar[r, bimr-biml, "{#1}"]\&~\end{tikzcd}  
+}
+\newcommand{\bifromlong}[2][]{
+	\begin{tikzcd}[ampersand replacement=\&, column sep=#2, cramped]\ar[r, bimr-biml, "#1"]\&~\end{tikzcd}  
+}
+
+% Adjunctions
+\newcommand{\adj}[5][30pt]{%[size] Cat L, Left, Right, Cat R.
+\begin{tikzcd}[ampersand replacement=\&, column sep=#1]
+  #2\ar[r, shift left=7pt, "#3"]
+  \ar[r, phantom, "\scriptstyle\Rightarrow"]\&
+  #5\ar[l, shift left=7pt, "#4"]
+\end{tikzcd}
+}
+
+\newcommand{\adjr}[5][30pt]{%[size] Cat R, Right, Left, Cat L.
+\begin{tikzcd}[ampersand replacement=\&, column sep=#1]
+  #2\ar[r, shift left=7pt, "#3"]\&
+  #5\ar[l, shift left=7pt, "#4"]
+  \ar[l, phantom, "\scriptstyle\Leftarrow"]
+\end{tikzcd}
+}
+
+\newcommand{\Tickar}[1][]{\begin{tikzcd}[baseline=-0.5ex,cramped,sep=small,ampersand 
+replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
+\newcommand{\Slashar}[1][]{\begin{tikzcd}[baseline=-0.5ex,cramped,sep=small,ampersand 
+replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
+
+
+
+  
+  % amsthm %
+\theoremstyle{definition}
+\newtheorem{definitionx}{Definition}[chapter]
+\newtheorem{examplex}[definitionx]{Example}
+\newtheorem{remarkx}[definitionx]{Remark}
+\newtheorem{notation}[definitionx]{Notation}
+
+
+\theoremstyle{plain}
+
+\newtheorem{theorem}[definitionx]{Theorem}
+\newtheorem{proposition}[definitionx]{Proposition}
+\newtheorem{corollary}[definitionx]{Corollary}
+\newtheorem{lemma}[definitionx]{Lemma}
+\newtheorem{warning}[definitionx]{Warning}
+\newtheorem*{theorem*}{Theorem}
+\newtheorem*{proposition*}{Proposition}
+\newtheorem*{corollary*}{Corollary}
+\newtheorem*{lemma*}{Lemma}
+\newtheorem*{warning*}{Warning}
+%\theoremstyle{definition}
+%\newtheorem{definition}[theorem]{Definition}
+%\newtheorem{construction}[theorem]{Construction}
+
+\newenvironment{example}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\lozenge$}\examplex}
+  {\popQED\endexamplex}
+  
+ \newenvironment{remark}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\lozenge$}\remarkx}
+  {\popQED\endremarkx}
+  
+  \newenvironment{definition}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\lozenge$}\definitionx}
+  {\popQED\enddefinitionx} 
+
+    
+%-------- Single symbols --------%
+	
+\DeclareSymbolFont{stmry}{U}{stmry}{m}{n}
+\DeclareMathSymbol\fatsemi\mathop{stmry}{"23}
+
+\DeclareFontFamily{U}{mathx}{\hyphenchar\font45}
+\DeclareFontShape{U}{mathx}{m}{n}{
+      <5> <6> <7> <8> <9> <10>
+      <10.95> <12> <14.4> <17.28> <20.74> <24.88>
+      mathx10
+      }{}
+\DeclareSymbolFont{mathx}{U}{mathx}{m}{n}
+\DeclareFontSubstitution{U}{mathx}{m}{n}
+\DeclareMathAccent{\widecheck}{0}{mathx}{"71}
+
+\ExplSyntaxOn
+\NewDocumentEnvironment{sequation}{O{\fontsize{15pt}{15pt}\selectfont
+}b}
+ {
+  \yufip_sequation:nnn {equation}{#1}{#2}
+ }{}
+\NewDocumentEnvironment{sequation*}{O{\fontsize{16pt}{16pt}\selectfont
+}b}
+ {
+  \yufip_sequation:nnn {equation*}{#1}{#2}
+ }{}
+\cs_new_protected:Nn \yufip_sequation:nnn
+ {
+  \begin{#1}
+  \mbox{#2$\displaystyle#3$}
+  \end{#1}
+ }
+\ExplSyntaxOff
+
+%-------- Renewed commands --------%
+
+\renewcommand{\ss}{\subseteq}
+
+%-------- Other Macros --------%
+
+
+\DeclarePairedDelimiter{\present}{\langle}{\rangle}
+\DeclarePairedDelimiter{\copair}{[}{]}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\corners}{\ulcorner}{\urcorner}
+\DeclarePairedDelimiter{\ihom}{[}{]}
+
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Mor}{Mor}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\cod}{cod}
+\DeclareMathOperator{\idy}{idy}
+\DeclareMathOperator{\comp}{com}
+\DeclareMathOperator*{\colim}{colim}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ob}{Ob}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\el}{El}
+\DeclareMathOperator{\votimes}{\varotimes}
+
+
+
+
+\newcommand{\const}[1]{\texttt{#1}}%a constant, or named element of a set
+\newcommand{\Set}[1]{\mathsf{#1}}%a named set
+\newcommand{\ord}[1]{\mathsf{#1}}%an ordinal
+\newcommand{\cat}[1]{\mathit{#1}}%a generic category
+\newcommand{\Cat}[1]{\textbf{#1}}%a named category
+\newcommand{\fun}[1]{\mathrm{#1}}%a generic functor
+\newcommand{\Fun}[1]{\mathit{#1}}%a named functor
+\newcommand{\Bico}[1]{\mathit{#1}}
+
+
+
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\then}{\mathbin{\fatsemi}}
+
+\newcommand{\cocolon}{:\!}
+
+
+\newcommand{\iso}{\cong}
+\newcommand{\too}{\longrightarrow}
+\newcommand{\tto}{\rightrightarrows}
+\newcommand{\To}[2][]{\xrightarrow[#1]{#2}}
+\renewcommand{\Mapsto}[1]{\xmapsto{#1}}
+\newcommand{\Tto}[3][13pt]{\begin{tikzcd}[sep=#1, cramped, ampersand replacement=\&, text height=1ex, text depth=.3ex]\ar[r, shift left=2pt, "#2"]\ar[r, shift right=2pt, "#3"']\&{}\end{tikzcd}}
+\newcommand{\Too}[1]{\xrightarrow{\;\;#1\;\;}}
+\newcommand{\from}{\leftarrow}
+\newcommand{\ffrom}{\leftleftarrows}
+\newcommand{\From}[1]{\xleftarrow{#1}}
+\newcommand{\Fromm}[1]{\xleftarrow{\;\;#1\;\;}}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\inj}{\rightarrowtail}
+\newcommand{\wavyto}{\rightsquigarrow}
+\newcommand{\lollipop}{\multimap}
+\renewcommand{\iff}{\Leftrightarrow}
+\newcommand{\down}{\mathbin{\downarrow}}
+\newcommand{\fromto}{\leftrightarrows}
+\newcommand{\slashar}{\xslashar{}}
+\newcommand{\ntto}{\Rightarrow}
+\newcommand{\cofunto}{\nrightarrow}
+\newcommand{\dopfto}{\boxright}
+\newcommand{\profto}{\Tickar{}}
+\newcommand{\Profto}[1][]{\Tickar[#1]}
+
+
+
+\newcommand{\inv}{^{-1}}
+\newcommand{\op}{^\tn{op}}
+
+\newcommand{\tn}[1]{\textnormal{#1}}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\ul}[1]{\underline{#1}}
+\newcommand{\wt}[1]{\widetilde{#1}}
+\newcommand{\wh}[1]{\widehat{#1}}
+\newcommand{\wc}[1]{\widecheck{#1}}
+\newcommand{\ubar}[1]{\underaccent{\bar}{#1}}
+
+\newcommand{\lin}[1]{\hspace{1pt}\ol{\hspace{-1pt}#1\hspace{-1pt}}\hspace{1pt}}
+
+
+\newcommand{\bb}{\mathbb{B}}
+\newcommand{\cc}{\mathbb{C}}
+\newcommand{\nn}{\mathbb{N}}
+\newcommand{\pp}{\mathbb{P}}
+\newcommand{\qq}{\mathbb{Q}}
+\newcommand{\zz}{\mathbb{Z}}
+\newcommand{\rr}{\mathbb{R}}
+
+
+\newcommand{\finset}{\Cat{Fin}}
+\newcommand{\smset}{\Cat{Set}}
+\newcommand{\smcat}{\Cat{Cat}}
+\newcommand{\ssmcat}{\mathbb{C}\Cat{at}}
+\newcommand{\catsharp}{\Cat{Cat}^{\sharp}}
+\newcommand{\ppolyfun}{\mathbb{P}\Cat{olyFun}}
+\newcommand{\ccomod}{\mathbb{C}\Cat{omod}}
+\newcommand{\mmod}{\mathbb{M}\Cat{od}}
+\newcommand{\ccatsharp}{\mathbb{C}\Cat{at}^{\sharp}}
+\newcommand{\ccatlab}{\mathbb{C}\Cat{at}^{\sharp}_{\Cat{LAB}}}
+\newcommand{\ccatlabdisc}{\mathbb{C}\Cat{at}^{\sharp}_{\Cat{LAB,disc}}}
+\newcommand{\ccatsharpdisc}{\mathbb{C}\Cat{at}^{\sharp}_{\tn{disc}}}
+\newcommand{\ccatsharplin}{\mathbb{C}\Cat{at}^{\sharp}_{\tn{lin}}}
+\newcommand{\ccatsharpdisccon}{\mathbb{C}\Cat{at}^{\sharp}_{\tn{disc,con}}}
+\newcommand{\sspan}{\mathbb{S}\Cat{pan}}
+\newcommand{\en}{\Cat{End}}
+
+\newcommand{\List}{\Fun{list}}
+\newcommand{\set}{\tn{-}\Cat{Set}}
+
+
+
+
+\newcommand{\yon}{\mathcal{y}}
+\newcommand{\poly}{\Cat{Poly}}
+\newcommand{\Span}{\Cat{Span}}
+\newcommand{\rect}{\Set{Rect}}
+\newcommand{\polycart}{\poly^{\tn{cart}}}
+\newcommand{\hh}{\mathcal{h}}
+\newcommand{\ppoly}{\mathbb{P}\Cat{oly}}
+\newcommand{\0}{\textsf{0}}
+\newcommand{\1}{\tn{\textsf{1}}}
+\newcommand{\tri}{\mathbin{\triangleleft}}
+\newcommand{\triright}{\mathbin{\triangleright}}
+\newcommand{\tripow}[1]{^{\tri #1}}
+\newcommand{\indep}{\Fun{Indep}}
+\newcommand{\duoid}{\Fun{Duoid}}
+\newcommand{\jump}{\pi}
+\newcommand{\jumpmap}{\lin{\jump}}
+\newcommand{\founds}{\Yleft}
+\newcommand{\cofree}{\mathfrak{c}}
+\newcommand{\free}{\mathfrak{m}}
+\newcommand{\uu}{\List}
+
+% lenses
+\newcommand{\biglens}[2]{
+     \begin{bmatrix}{\vphantom{f_f^f}#2} \\ {\vphantom{f_f^f}#1} \end{bmatrix}
+}
+\newcommand{\littlelens}[2]{
+     \begin{bsmallmatrix}{\vphantom{f}#2} \\ {\vphantom{f}#1} \end{bsmallmatrix}
+}
+\newcommand{\lens}[2]{
+  \relax\if@display
+     \biglens{#1}{#2}
+  \else
+     \littlelens{#1}{#2}
+  \fi
+}
+
+\newcommand{\indexcoclscale}[1]{\scalebox{.7}{#1}}
+\newcommand{\cocl}[1]{
+	\scriptsize\overset{\,\indexcoclscale{$#1$}}{\frown}\normalsize
+}
+\newcommand{\hyper}[1]{
+	\begin{tikzpicture}[y=.5cm, font=\scriptsize, baseline=(base)]
+		\node[rotate=-15] (ar) {$\nearrow$};
+		\coordinate[below=3pt] (base) at (ar);
+		\node[above right=-2pt and 1pt of ar.west] (f) {\indexcoclscale{$#1$}};
+	\end{tikzpicture}
+}
+
+\newcommand{\othis}[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=1pt] (char) {\tiny #1};}}
+\newcommand{\bang}{\,\mathbin{!}\,}
+\newcommand{\obang}{\mathbin{\othis{!}}}
+
+\newcommand{\qand}{\quad\text{and}\quad}
+\newcommand{\qqand}{\qquad\text{and}\qquad}
+\newcommand{\qor}{\quad\text{or}\quad}
+\newcommand{\qqor}{\qquad\text{or}\qquad}
+
+
+\newcommand{\cofun}{{\raisebox{2pt}{\resizebox{2.5pt}{2.5pt}{$\setminus$}}}}
+\newcommand{\io}{\fun{io}}
+\newcommand{\ff}{\fun{ff}}
+\newcommand{\grph}{\Cat{grph}}
+
+\newcommand{\coalg}{\tn{-}\Cat{Coalg}}
+\newcommand{\ext}{\fun{Ext}}
+
+\newcommand{\bic}[2]{{}_{#1}\Cat{Comod}_{#2}}
+
+\newcommand{\thanksAFOSR}[1]{This material is based upon work supported by the Air Force Office of Scientific Research under award numbers #1}
+
+% ---- Changeable document parameters ---- %
+
+\linespread{1.1}
+\allowdisplaybreaks
+\setsecnumdepth{section}
+\settocdepth{section}
+\setlength{\parindent}{15pt}
+\setcounter{tocdepth}{1}
+
+
+
+%--------------- Document ---------------%
+\begin{document}
+
+\title{The double category $\ccatlab$}
+
+\date{Last updated: \today}
+
+\maketitle
+
+\begin{abstract}
+Categories, functors, natural transformations are the ``big 3'' of categories. Pure category theorists are well aware of the ``deeper cuts'' of this world: discrete opfibrations, cofunctors, and data migrations between (parametric right adjoint functors between the copresheaf categories associated to) small categories. On the other hand, applied category theorists are developing what is becoming known as categorical systems theory. 
+
+In this short note, we bring these together within the polynomial functor ecosystem, in particular the double category $\ccatsharp$ of comonoids and comodules in $(\poly,\yon,\tri)$. We first explain that functors and natural transformations include into the locally full subcategory $\ccatlab\ss\ccatsharp$ of left adjoint bicomodules (LABs). We refer to the 2-cells in this double category as \emph{charts}. We show that right comodules in $\ccatsharp$ can be identified with maps out of discrete categories in $\ccatlab$. In particular, right comodules on the terminal category are polynomials, and the 2-cells between them are ``charts'' in the sense of Myers.
+\end{abstract}
+
+\chapter{Introduction}
+
+We assume the reader knows the basic theory of categories $c$, functors $\fun{f}\colon c\to d$, and natural transformations $\alpha\colon \fun{f}\ntto \fun{g}$. We also assume the reader is aware of discrete opfibrations, which we notate $\varphi\colon c'\dopfto c$ in order to evoke the category of elements construction as applied to associated copresheaf.
+
+We also assume the reader has a passing familiarity with the theory of polynomial functors, including both 
+\begin{itemize}
+	\item the nonsymmetric monoidal category $(\poly,\yon,\tri)$ of polynomial functors and 
+	\item its associated double category $\ccatsharp\coloneqq\ccomod(\poly)$ of comonoids and comodules.
+\end{itemize}
+It has been shown by Ahman, Uustalu, and Garner that the objects of this double category can be identified with categories, its tight morphisms are known as \emph{cofunctors}, and its loose morphisms $c\bifrom[p]d$, i.e.\ $(c,d)$-bicomodules, are parametric right adjoint (pra-) functors $d\set\to c\set$ between the copresheaf categories. 
+
+Discrete opfibrations are found with the tight morphisms of both $\ccatsharp$ and $\ssmcat$, the latter denoting as the double category of categories, functors, profunctors, and natural transformations. In fact, there is an orthogonal factorization system on the $\smcat$, of which discrete opfibrations form the right class. Another orthogonal factorization system on $\smcat$ is better known: every functor can be factored as $\fun{f}=(\io\then\ff)=(\ff\circ\io)$, i.e.\ as 
+\[
+c\To{\io} f\To{\ff}d,
+\]
+where $\io$ is identity-on-objects and $\ff$ is fully faithful. 
+
+The loose morphisms in $\ccatsharp$ manifest a ``sweet spot'' in category theory, being both easy to calculate with and quite expressive. For example, Shapiro et al.\ \cite{SSL} showed that important concepts in higher category theory, including double categories, triple categories, symmetric monoidal categories, and $\infty$-categories, as well as their corresponding nerves, can be expressed within the monad theory of $\ccatsharp$. 
+
+There are three homes for categories in $\ccatsharp$. The first is that categories are the objects of $\ccatsharp$. The second is that categories are algebras for the paths monad on graphs. The category of graphs is a copresheaf category on the walking parallel arrows category $\grph$, and categories and functors constitute the categories of algebras for the monad
+\[\grph\bifrom[\Bico{path}]\grph.\]
+The third home for categories is as precisely the monads (themselves, not their algebras) in between discrete categories in $\ccatlab$. That is, a left adjoint bicomodule between discrete categories can be identified with a span between sets, and it is well known that $\ssmcat$ can be identified with the associated category of monoids and modules in the full double category $\ccatlabdisc$
+\[
+\ssmcat\cong\mmod(\ccatlabdisc)
+\]
+
+In this short note, we explain just the basic theory of $\ccatlab$. Our goal is only to point out this interesting setting to both the category theory and the applied category theory community. We are not claiming priority over any ideas here, nor that I am the first to consider the importance of this setting; we are merely claiming that it bears repeating.
+
+\section*{Acknowledgments}
+I'd like to thank Sophie Libkind and Owen Lynch for inspiring conversations. \thanksAFOSR{FA9550-23-1-0376}.
+
+\chapter{Notation and background}
+We notate categories $c,d$, functors $\fun{f},\fun{g}$, and natural transformations $\alpha,\beta$; we ignore size issues, promising to remain within 3-levels of Grothendieck universes. We denote $\smset$ as the category of sets and functions, with objects $S,T:\ob(\smset)$ and morphisms $f:\smset(S,T)$. We denote $\nn$ as the set of natural numbers, and $\ord{N}\coloneqq\{`1`,\ldots,`N`\}$ as the \emph{ordinal} set with $N$ elements for any given $N:\nn$. Thus $\ord{0}$ is initial and $\ord{1}$ is terminal in $\smset$. We notate binary sums of sets by $S+T$ and binary products of sets by $S\times T$ or simply $ST$. More generally we notate the sum and product of $I$-indexed sets $(S_i)_{i:I}$ as
+\[
+	\sum_{i:I}S_i
+  \qqand
+  \prod_{i:I}S_i
+\]
+
+For any category $c$ and object $C:\ob(c)$, we usually notate the identity morphism on $C$ simply as $C=\id_C$, as there is a canonical identification between objects and their associated identity morphisms. We notate a profunctor $\fun{P}\colon c\op\times d\to\smset$ from $c$ to $d$ by $c\Profto[\fun{P}] d$. In particular, we notate the hom-profunctor on $c$ again by $c$
+\[
+c\Profto[c]c
+\]
+as this is the identity on $c$ as a loose morphism in $\ssmcat$. As such, we recover $c(C_1,C_2)$ as set of morphisms in $c$ from $C_1$ to $C_2$. For an object $C:\ob(c)$, we notate the set of outgoing maps as
+\[
+c[C]\coloneqq\sum_{C':\ob(c)}c(C,C').
+\]
+Thus the graph underlying $c$ is $\sum_{C:\ob(c)}c[C]\tto\ob(C)$.
+
+Given a set $S$, we notate $\yon^S\colon\smset\to\smset$ to be the functor $\yon^S(X)\coloneqq X^S=\smset(S,X)$ \emph{represented by $S$}. A \emph{polynomial functor} is a functor $\fun{p}\colon\smset\to\smset$ equipped with an isomorphism $\fun{p}\cong p$ to a $\fun{p}(\ord{1})$-indexed sum
+\[
+p\coloneqq\sum_{P:\fun{p}(\ord{1})}\yon^{A_P}
+\]
+of functors $\yon^{A_P}$ represented by sets $A_P:\smset$, indexed by elements $P:\fun{p}(\ord{1})$. We denote $p[P]\coloneqq A_P$ and, using the bijection $\fun{p}(\ord{1})\cong p(\ord{1})$, have an isomorphism
+\[
+\fun{p}\cong p\cong\sum_{P:p(\ord{1})}\yon^{p[P]}.
+\]
+We refer to elements $P:p(\ord{1})$ as \emph{positions} in $p$ and to elements $d:p[P]$ as \emph{directions at $P$}. Products (and sums) of functors $\smset\to\smset$ are computed pointwise, so we can also write
+\[
+p\cong\sum_{P:p(\ord{1})}\prod_{d:p[P]}\yon
+\]
+We may identify sets $X:\smset$ with constant functors $(S\mapsto X)\colon\smset\to\smset$ or with the associated constant polynomials $X\coloneqq X\yon^0$; this constitutes a fully faithful functor $\smset\to\poly$.
+
+A morphism $\varphi\colon p\to q$ in $\poly$, the category of polynomial functors, is defined simply a natural transformation between the associated functors, the set of which are easily calculated by the universal property of coproducts as well as the Yoneda lemma
+\begin{align*}
+	\poly(p,q)&\cong
+	\ssmcat(\smset,\smset)(p,q)\\&\cong
+	\ssmcat(\smset,\smset)\left(\sum_{P:p(\ord{1})}\yon^{p[P]},\sum_{Q:q(\ord{1})}\yon^{q[Q]}\right)\\&\cong
+	\prod_{P:p(\ord{1})}\ssmcat(\smset,\smset)\left(\yon^{p[P]},\sum_{Q:q(\ord{1})}\yon^{q[Q]}\right)\\&\cong
+	\prod_{P:p(\ord{1})}\sum_{Q:q(\ord{1})}\yon^{q[Q]}(p[P])\\&\cong
+	\prod_{P:p(\ord{1})}\sum_{Q:q(\ord{1})}\prod_{b:q[Q]}\sum_{d:p[P]}\ord{1}
+\end{align*}
+Thus a map $\varphi\colon p\to q$ consists of, for each position $P$ in $p$, a choice of a position $Q$ in $q$ and, for each direction $b:q[Q]$ there, a choice of direction $d:p[P]$ at $P$. The sets $\0$ and $\1$, regarded as constant polynomials, are respectively initial and terminal objects in $\poly$, and sums and products in $\poly$ correspond to the ``high school algebra'' sums and products.
+
+The identity functor on $\smset$ corresponds to $\yon=\yon^\ord{\ord{1}}$, the polynomial with one position and one direction there. The composite of polynomials $p$ then $q$ is denoted
+\begin{equation}\label{eqn.composite_poly}
+p\circ q\cong\sum_{P:p(\ord{1})}\prod_{d:p[P]}\sum_{Q:q(\ord{1})}\prod_{b:q[Q]}\yon
+\end{equation}
+Reserving $\circ$ for composition of morphisms $\varphi\circ\psi=\psi\then\varphi$ in any category, we denote the object \eqref{eqn.composite_poly} in $\poly$ by $p\tri q$. This extends to a nonsymmetric monoidal structure $(\poly,\yon,\tri)$ on polynomials. Given any set $X$, applying $p$ to $X$ is the same as composing
+\[
+p(X)\cong p\tri X.
+\]
+It was shown by Ahman and Uustalu \cite{AhmanUustalu} that comonoids $(c,\epsilon,\delta)$
+\[
+	c\To{\epsilon}\yon
+	\qqand
+	c\To{\delta}c\tri c
+\]
+can be identified with categories, temporarily notated $\cat{C}$, with object set $c(\ord{1})=\ob(\cat{C})$ and outgoing morphisms $\cat{C}[C]=c[C]$ for each object $C:\ob(\cat{C})$. The discrete category on a set $S$ corresponds to the unique comonoid structure on $C\yon$.
+
+Letting $\ccatsharp\coloneqq\ccomod(\poly)$ be the double category of comonoids and bicomodules, the tight morphisms $\varphi\colon c\cofunto d$ are cofunctors, and Garner showed that the loose morphisms $c\bifrom[p] d$, i.e.\ the bicomodules
+\[
+c\tri p\From{\lambda}p\To{\rho}p\tri d
+\]
+can be identified with pra-functors $d\set\to c\set$. In particular, the category of copresheaves $\fun{X}\colon c\to\smset$ is equivalent to that of bicomodules $c\bifrom[X] \0$,
+\[
+c\set\cong\ccatsharp(c,\0).
+\]
+The carrier $X$ will always be discrete, i.e.\ a set, and it will be in bijection with the set of (objects in the category of) elements $\fun{X}$.
+
+Given any such bicomodule $p$, we have a map
+\[
+p\To{\lambda}c\tri p\To{\cong}c\tri p\tri \yon\To{c\tri p\tri !}c\tri p\tri\ord{1}
+\]
+and for each object $C:c(\ord{1})$, we can form a pullback in $\poly$:
+\[
+\begin{tikzcd}
+	p_C\ar[r]\ar[d]&
+	c\ar[d,"c\tri!"]\\
+	p\ar[r]&
+	c\tri \1\ar[ul, phantom, very near end, "\lrcorner"]
+\end{tikzcd}
+\]
+In particular, if $\fun{X}\colon c\to\smset$ is a copresheaf with associated bicomodule $c\bifrom[X] \0$, then there is a natural isomorphism $X_C\cong\fun{X}(C)$. For any $c\bifrom[p]d$ and object $C:c(\1)$, there is a bicomodule structure $\yon\bifrom[p_C]d$ and an isomorphism $p\cong\sum_{C:c(1)}p_C$ in $\poly$.
+
+\begin{proposition}
+The category of profunctors $c\profto d$ is equivalent to the full subcategory of $\ccatsharp(c,d)$ spanned by those $c\bifrom[p]d$ for which $p_C\cong\1$ for each $C:c(\1)$.
+\end{proposition}
+
+
+
+\chapter{Left adjoint bicomodules}
+
+
+
+
+
+\printbibliography 
+\end{document}
